@@ -3,110 +3,181 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestión de Camas Hospital de Talca</title>
+<title>Gestión de Camas - Hospital Regional de Talca</title>
 
 <style>
 
-body{
+*{
     margin:0;
-    font-family:Arial;
-    background:#eef2f7;
-}
-
-.login{
-    width:330px;
-    margin:70px auto;
-    background:white;
-    padding:25px;
-    border-radius:12px;
-    box-shadow:0 0 15px rgba(0,0,0,0.1);
-}
-
-.login h2{
-    color:#0d4d85;
-}
-
-input,select{
-    width:100%;
-    padding:10px;
-    margin-top:10px;
-    border-radius:8px;
-    border:1px solid #ccc;
+    padding:0;
     box-sizing:border-box;
 }
 
-button{
-    padding:10px;
-    border:none;
-    border-radius:8px;
-    background:#0d4d85;
-    color:white;
-    cursor:pointer;
-    font-weight:bold;
+body{
+    font-family:Arial;
+    background:#edf2f7;
 }
 
-button:hover{
-    background:#08355c;
+/* LOGIN */
+
+.login{
+    width:360px;
+    background:white;
+    margin:70px auto;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.login h1{
+    color:#0b4f8a;
+    margin-bottom:5px;
+}
+
+.login p{
+    color:#666;
+    margin-bottom:20px;
+}
+
+.login input,
+.login select{
+    width:100%;
+    padding:12px;
+    margin-top:12px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:15px;
 }
 
 .login button{
     width:100%;
-    margin-top:15px;
+    padding:12px;
+    margin-top:18px;
+    border:none;
+    border-radius:10px;
+    background:#0b4f8a;
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-.info{
+.login button:hover{
+    background:#08375f;
+}
+
+.demo{
+    margin-top:20px;
     background:#f1f5f9;
-    margin-top:15px;
-    padding:10px;
-    border-radius:8px;
+    padding:12px;
+    border-radius:10px;
     font-size:14px;
 }
+
+/* APP */
 
 .app{
     display:none;
 }
 
-.top{
-    background:#0d4d85;
+.topbar{
+    background:#0b4f8a;
     color:white;
-    padding:15px;
+    padding:18px 25px;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
+.topbar h2{
+    font-size:24px;
+}
+
+.logout{
+    background:white;
+    color:#0b4f8a;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
 .container{
+    padding:25px;
+}
+
+/* METRICAS */
+
+.metrics{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.metric{
+    background:white;
+    border-radius:15px;
     padding:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+.metric h3{
+    color:#666;
+    font-size:14px;
+}
+
+.metric .num{
+    font-size:35px;
+    margin-top:10px;
+    font-weight:bold;
+    color:#0b4f8a;
+}
+
+/* FILTROS */
+
+.filters{
+    margin-bottom:20px;
 }
 
 .filters button{
-    margin-right:5px;
-    margin-bottom:5px;
-    background:#dbeafe;
-    color:#0d4d85;
+    margin-right:8px;
+    margin-bottom:8px;
+    border:none;
+    padding:10px 15px;
+    border-radius:10px;
+    background:white;
+    cursor:pointer;
+    font-weight:bold;
+    box-shadow:0 3px 8px rgba(0,0,0,0.08);
 }
 
 .filters button:hover{
-    background:#93c5fd;
+    background:#dbeafe;
 }
+
+/* GRID */
 
 .grid{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:15px;
-    margin-top:20px;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:18px;
 }
+
+/* CARD */
 
 .card{
     background:white;
-    border-radius:12px;
-    padding:15px;
-    box-shadow:0 0 10px rgba(0,0,0,0.08);
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
     transition:0.2s;
+    cursor:pointer;
 }
 
 .card:hover{
-    transform:scale(1.02);
+    transform:translateY(-4px);
 }
 
 .libre{
@@ -126,20 +197,49 @@ button:hover{
 }
 
 .numero{
-    font-size:20px;
+    font-size:22px;
     font-weight:bold;
-    color:#0d4d85;
+    color:#0b4f8a;
 }
 
 .estado{
-    margin-top:8px;
+    margin-top:10px;
     font-weight:bold;
 }
 
 .dato{
-    margin-top:5px;
-    color:#444;
+    margin-top:8px;
+    color:#555;
     font-size:14px;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:12px;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.b1{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.b2{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.b3{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.b4{
+    background:#dbeafe;
+    color:#1d4ed8;
 }
 
 </style>
@@ -147,9 +247,12 @@ button:hover{
 
 <body>
 
+<!-- LOGIN -->
+
 <div class="login" id="login">
 
-<h2>Hospital Regional de Talca</h2>
+<h1>Hospital Regional de Talca</h1>
+<p>Sistema de Gestión de Camas</p>
 
 <input type="text" id="user" placeholder="Usuario">
 <input type="password" id="pass" placeholder="Contraseña">
@@ -162,10 +265,10 @@ button:hover{
 
 <button onclick="login()">Ingresar</button>
 
-<p id="error" style="color:red;"></p>
+<p id="error" style="color:red;margin-top:10px;"></p>
 
-<div class="info">
-<b>Usuarios:</b><br><br>
+<div class="demo">
+<b>Usuarios de prueba</b><br><br>
 
 admin / 1234<br>
 doctor / 1234<br>
@@ -174,17 +277,47 @@ enfermera / 1234
 
 </div>
 
+<!-- APP -->
+
 <div class="app" id="app">
 
-<div class="top">
+<div class="topbar">
 <h2>Gestión de Camas</h2>
 
-<button onclick="logout()" style="background:white;color:#0d4d85;">
+<button class="logout" onclick="logout()">
 Cerrar sesión
 </button>
 </div>
 
 <div class="container">
+
+<!-- METRICAS -->
+
+<div class="metrics">
+
+<div class="metric">
+<h3>Total de camas</h3>
+<div class="num" id="mTotal">0</div>
+</div>
+
+<div class="metric">
+<h3>Camas ocupadas</h3>
+<div class="num" id="mOcupadas">0</div>
+</div>
+
+<div class="metric">
+<h3>Camas libres</h3>
+<div class="num" id="mLibres">0</div>
+</div>
+
+<div class="metric">
+<h3>Reservadas</h3>
+<div class="num" id="mReservadas">0</div>
+</div>
+
+</div>
+
+<!-- FILTROS -->
 
 <div class="filters">
 <button onclick="setFilter('all')">Todas</button>
@@ -194,9 +327,12 @@ Cerrar sesión
 <button onclick="setFilter('limpieza')">Limpieza</button>
 </div>
 
+<!-- CAMAS -->
+
 <div class="grid" id="beds"></div>
 
 </div>
+
 </div>
 
 <script>
@@ -207,29 +343,44 @@ const users = {
     enfermera:"1234"
 };
 
-const pacientes = [
+const nombres = [
 "Camila Rojas",
+"Martina Silva",
 "Diego Muñoz",
-"Fernanda Silva",
-"Luis Torres",
-"Javiera Soto",
-"Matías Pérez",
+"Sebastián Torres",
 "Valentina Díaz",
-"Sebastián Herrera",
-"Martina Fuentes",
+"Tomás Herrera",
+"Fernanda Soto",
 "Benjamín Castro",
+"Javiera Pérez",
+"Matías Fuentes",
 "Antonia Vega",
-"Tomás Morales"
+"Luis Morales",
+"Florencia Reyes",
+"Vicente Araya",
+"Constanza Medina"
 ];
 
 const areas = [
 "Obstetricia",
 "Medicina",
-"Pediatría",
-"Traumatología",
 "Cirugía",
+"Pediatría",
 "UTI",
-"Neurología"
+"Traumatología",
+"Neurología",
+"Ginecología"
+];
+
+const diagnosticos = [
+"Neumonía",
+"Fractura de cadera",
+"COVID",
+"Post operatorio",
+"Control médico",
+"Observación",
+"Dolor abdominal",
+"Infección respiratoria"
 ];
 
 const estados = [
@@ -243,22 +394,24 @@ let filter = "all";
 
 const beds = [];
 
-for(let i=1;i<=30;i++){
+for(let i=1;i<=40;i++){
 
     let estado = estados[Math.floor(Math.random()*estados.length)];
 
     beds.push({
         numero:"CAMA-"+i,
         estado:estado,
-        paciente:pacientes[Math.floor(Math.random()*pacientes.length)],
-        area:areas[Math.floor(Math.random()*areas.length)]
+        paciente:nombres[Math.floor(Math.random()*nombres.length)],
+        area:areas[Math.floor(Math.random()*areas.length)],
+        diagnostico:diagnosticos[Math.floor(Math.random()*diagnosticos.length)],
+        doctor:"Dr. " + nombres[Math.floor(Math.random()*nombres.length)].split(" ")[0]
     });
 }
 
 function login(){
 
-    let u = document.getElementById("user").value;
-    let p = document.getElementById("pass").value;
+    const u = document.getElementById("user").value;
+    const p = document.getElementById("pass").value;
 
     if(users[u] && users[u] === p){
 
@@ -268,7 +421,7 @@ function login(){
         renderBeds();
 
     }else{
-        document.getElementById("error").innerText = "Datos incorrectos";
+        document.getElementById("error").innerText = "Usuario o contraseña incorrectos";
     }
 }
 
@@ -283,20 +436,55 @@ function setFilter(f){
 
 function renderBeds(){
 
-    let cont = document.getElementById("beds");
+    const cont = document.getElementById("beds");
 
     cont.innerHTML = "";
+
+    let ocupadas = 0;
+    let libres = 0;
+    let reservadas = 0;
+
+    beds.forEach(b=>{
+
+        if(b.estado === "ocupada") ocupadas++;
+        if(b.estado === "libre") libres++;
+        if(b.estado === "reservada") reservadas++;
+
+    });
+
+    document.getElementById("mTotal").innerText = beds.length;
+    document.getElementById("mOcupadas").innerText = ocupadas;
+    document.getElementById("mLibres").innerText = libres;
+    document.getElementById("mReservadas").innerText = reservadas;
 
     beds
     .filter(b => filter === "all" ? true : b.estado === filter)
     .forEach(b => {
 
-        let div = document.createElement("div");
+        let badge = "";
+
+        if(b.estado === "libre"){
+            badge = '<div class="badge b1">Disponible</div>';
+        }
+
+        if(b.estado === "ocupada"){
+            badge = '<div class="badge b2">Paciente hospitalizado</div>';
+        }
+
+        if(b.estado === "reservada"){
+            badge = '<div class="badge b3">Reserva pendiente</div>';
+        }
+
+        if(b.estado === "limpieza"){
+            badge = '<div class="badge b4">En limpieza</div>';
+        }
+
+        const div = document.createElement("div");
 
         div.className = "card " + b.estado;
 
         div.innerHTML = `
-        
+
         <div class="numero">${b.numero}</div>
 
         <div class="estado">
@@ -304,12 +492,25 @@ function renderBeds(){
         </div>
 
         <div class="dato">
-        Área: ${b.area}
+        <b>Área:</b> ${b.area}
         </div>
 
         <div class="dato">
-        Paciente: ${b.estado === "ocupada" ? b.paciente : "Sin paciente"}
+        <b>Paciente:</b>
+        ${b.estado === "ocupada" ? b.paciente : "Sin paciente"}
         </div>
+
+        <div class="dato">
+        <b>Diagnóstico:</b>
+        ${b.estado === "ocupada" ? b.diagnostico : "-"}
+        </div>
+
+        <div class="dato">
+        <b>Médico:</b>
+        ${b.estado === "ocupada" ? b.doctor : "-"}
+        </div>
+
+        ${badge}
 
         `;
 
@@ -317,13 +518,19 @@ function renderBeds(){
 
             if(b.estado === "libre"){
                 b.estado = "ocupada";
-            }else if(b.estado === "ocupada"){
+            }
+            else if(b.estado === "ocupada"){
                 b.estado = "limpieza";
-            }else{
+            }
+            else if(b.estado === "limpieza"){
+                b.estado = "libre";
+            }
+            else{
                 b.estado = "libre";
             }
 
             renderBeds();
+
         };
 
         cont.appendChild(div);
@@ -336,4 +543,3 @@ function renderBeds(){
 
 </body>
 </html>
-
