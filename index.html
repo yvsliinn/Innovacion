@@ -1,117 +1,281 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Gestión de Camas - Simplificado</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestión de Camas</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:#eef3f8;
+}
+
+.login{
+    width:320px;
+    margin:80px auto;
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+.login h2{
+    margin-top:0;
+    color:#0b4f8a;
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    margin-top:15px;
+    border:none;
+    border-radius:8px;
+    background:#0b4f8a;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#08375f;
+}
+
+.info{
+    margin-top:15px;
+    background:#f1f5f9;
+    padding:10px;
+    border-radius:8px;
+    font-size:14px;
+}
+
+.app{
+    display:none;
+}
+
+.top{
+    background:#0b4f8a;
+    color:white;
+    padding:15px;
+}
+
+.container{
+    padding:20px;
+}
+
+.filters button{
+    width:auto;
+    margin-right:5px;
+    background:#dbeafe;
+    color:#0b4f8a;
+}
+
+.filters button:hover{
+    background:#93c5fd;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:15px;
+    margin-top:20px;
+}
+
+.bed{
+    background:white;
+    border-radius:10px;
+    padding:15px;
+    text-align:center;
+    box-shadow:0 0 10px rgba(0,0,0,0.08);
+    cursor:pointer;
+}
+
+.bed:hover{
+    transform:scale(1.03);
+}
+
+.libre{
+    border-top:6px solid #22c55e;
+}
+
+.ocupada{
+    border-top:6px solid #ef4444;
+}
+
+.reservada{
+    border-top:6px solid #f59e0b;
+}
+
+.limpieza{
+    border-top:6px solid #3b82f6;
+}
+
+.estado{
+    margin-top:10px;
+    font-weight:bold;
+}
+
+.paciente{
+    margin-top:5px;
+    font-size:13px;
+    color:#666;
+}
+</style>
 </head>
+
 <body>
 
-<!-- LOGIN -->
-<div id="login">
-  <h2>Hospital de Talca</h2>
-  <p>Iniciar sesión</p>
+<div class="login" id="login">
 
-  <input id="user" placeholder="usuario" />
-  <input id="pass" type="password" placeholder="contraseña" />
+<h2>Hospital de Talca</h2>
 
-  <select id="role">
-    <option value="medico">Médico</option>
-    <option value="enfermero">Enfermero</option>
-    <option value="admin">Admin</option>
-  </select>
+<input type="text" id="user" placeholder="Usuario">
+<input type="password" id="pass" placeholder="Contraseña">
 
-  <button onclick="login()">Entrar</button>
-  <p id="error" style="color:red"></p>
+<select id="role">
+<option>Médico</option>
+<option>Enfermero</option>
+<option>Administrador</option>
+</select>
+
+<button onclick="login()">Ingresar</button>
+
+<p id="error" style="color:red;"></p>
+
+<div class="info">
+<b>Usuarios:</b><br><br>
+
+admin / 1234<br>
+doctor / 1234<br>
+enfermera / 1234
 </div>
 
-<!-- APP -->
-<div id="app" style="display:none">
-  <h2>Gestión de Camas</h2>
-  <button onclick="logout()">Cerrar sesión</button>
+</div>
 
-  <hr>
+<div class="app" id="app">
 
-  <h3>Filtros</h3>
-  <button onclick="setFilter('all')">Todas</button>
-  <button onclick="setFilter('libre')">Libres</button>
-  <button onclick="setFilter('ocupada')">Ocupadas</button>
-  <button onclick="setFilter('reservada')">Reservadas</button>
+<div class="top">
+<h2>Gestión de Camas - Hospital de Talca</h2>
+<button onclick="logout()" style="width:auto;background:white;color:#0b4f8a;">
+Cerrar sesión
+</button>
+</div>
 
-  <hr>
+<div class="container">
 
-  <h3>Camas</h3>
-  <div id="beds"></div>
+<div class="filters">
+<button onclick="setFilter('all')">Todas</button>
+<button onclick="setFilter('libre')">Libres</button>
+<button onclick="setFilter('ocupada')">Ocupadas</button>
+<button onclick="setFilter('reservada')">Reservadas</button>
+<button onclick="setFilter('limpieza')">Limpieza</button>
+</div>
+
+<div class="grid" id="beds"></div>
+
+</div>
 </div>
 
 <script>
-const USERS = {
-  admin: { pass: "1234" }
+
+const users = {
+    admin:"1234",
+    doctor:"1234",
+    enfermera:"1234"
 };
 
-let beds = [];
 let filter = "all";
 
-function generateBeds() {
-  const statuses = ["libre","ocupada","reservada","limpieza"];
-  beds = [];
-  for (let i = 1; i <= 30; i++) {
+const beds = [];
+
+const estados = ["libre","ocupada","reservada","limpieza"];
+
+for(let i=1;i<=24;i++){
+
+    let estado = estados[Math.floor(Math.random()*estados.length)];
+
     beds.push({
-      id: i,
-      num: "CAMA-" + i,
-      status: statuses[Math.floor(Math.random()*statuses.length)],
-      patient: "Paciente " + i
+        id:i,
+        numero:"CAMA-"+i,
+        estado:estado,
+        paciente:"Paciente "+i
     });
-  }
 }
 
-function render() {
-  const cont = document.getElementById("beds");
-  cont.innerHTML = "";
+function login(){
 
-  beds
-    .filter(b => filter === "all" ? true : b.status === filter)
+    const u = document.getElementById("user").value;
+    const p = document.getElementById("pass").value;
+
+    if(users[u] && users[u] === p){
+
+        document.getElementById("login").style.display="none";
+        document.getElementById("app").style.display="block";
+
+        renderBeds();
+
+    }else{
+        document.getElementById("error").innerText="Usuario o contraseña incorrectos";
+    }
+}
+
+function logout(){
+    location.reload();
+}
+
+function setFilter(f){
+    filter = f;
+    renderBeds();
+}
+
+function renderBeds(){
+
+    const cont = document.getElementById("beds");
+
+    cont.innerHTML = "";
+
+    beds
+    .filter(b => filter === "all" ? true : b.estado === filter)
     .forEach(b => {
-      const div = document.createElement("div");
-      div.innerHTML =
-        "<b>" + b.num + "</b> - " +
-        b.status.toUpperCase() +
-        (b.status === "ocupada" ? " (" + b.patient + ")" : "");
 
-      div.style.margin = "5px 0";
-      div.style.cursor = "pointer";
+        const div = document.createElement("div");
 
-      div.onclick = () => {
-        if (b.status === "libre") b.status = "ocupada";
-        else if (b.status === "ocupada") b.status = "libre";
-        render();
-      };
+        div.className = "bed " + b.estado;
 
-      cont.appendChild(div);
+        div.innerHTML = `
+            <h3>${b.numero}</h3>
+            <div class="estado">${b.estado.toUpperCase()}</div>
+            <div class="paciente">
+                ${b.estado === "ocupada" ? b.paciente : ""}
+            </div>
+        `;
+
+        div.onclick = () => {
+
+            if(b.estado === "libre"){
+                b.estado = "ocupada";
+            }else{
+                b.estado = "libre";
+            }
+
+            renderBeds();
+        };
+
+        cont.appendChild(div);
+
     });
 }
 
-function login() {
-  const u = document.getElementById("user").value;
-  const p = document.getElementById("pass").value;
-
-  if (u === "admin" && p === USERS.admin.pass) {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("app").style.display = "block";
-    generateBeds();
-    render();
-  } else {
-    document.getElementById("error").innerText = "Error de login";
-  }
-}
-
-function logout() {
-  location.reload();
-}
-
-function setFilter(f) {
-  filter = f;
-  render();
-}
 </script>
 
 </body>
