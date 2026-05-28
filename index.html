@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Gestión de Camas - Hospital Regional de Talca</title>
+<title>Hospital Regional de Talca</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 
@@ -20,25 +20,78 @@ font-family:Arial, Helvetica, sans-serif;
 body{
 background:#edf2f7;
 display:flex;
-height:100vh;
-overflow:hidden;
+min-height:100vh;
+}
+
+/* LOGIN */
+
+#login{
+position:fixed;
+inset:0;
+background:#0f172a;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+
+.login-box{
+background:white;
+padding:35px;
+border-radius:20px;
+width:350px;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+.login-box h2{
+margin-bottom:20px;
+text-align:center;
+color:#0f172a;
+}
+
+.login-box input{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border-radius:10px;
+border:1px solid #cbd5e1;
+font-size:15px;
+}
+
+.login-box button{
+width:100%;
+padding:12px;
+border:none;
+background:#2563eb;
+color:white;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+font-size:15px;
+}
+
+.login-box button:hover{
+background:#1d4ed8;
 }
 
 /* SIDEBAR */
 
 .sidebar{
-width:250px;
+width:240px;
 background:#0f172a;
 color:white;
 padding:20px;
-display:flex;
-flex-direction:column;
-gap:20px;
+position:fixed;
+top:0;
+left:0;
+bottom:0;
+overflow:auto;
 }
 
 .logo{
 font-size:22px;
 font-weight:bold;
+margin-bottom:30px;
 display:flex;
 align-items:center;
 gap:10px;
@@ -46,10 +99,10 @@ gap:10px;
 
 .menu button{
 width:100%;
-padding:12px;
+padding:13px;
 margin-bottom:10px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 background:#1e293b;
 color:white;
 cursor:pointer;
@@ -64,21 +117,21 @@ background:#334155;
 /* MAIN */
 
 .main{
+margin-left:240px;
 flex:1;
-padding:20px;
-overflow:auto;
+padding:25px;
 }
 
 .top{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:20px;
+margin-bottom:25px;
 }
 
 .top h1{
-font-size:28px;
 color:#0f172a;
+font-size:30px;
 }
 
 .actions{
@@ -87,11 +140,12 @@ gap:10px;
 }
 
 .actions button{
-padding:10px 15px;
+padding:12px 18px;
 border:none;
-border-radius:10px;
+border-radius:12px;
 cursor:pointer;
 font-weight:bold;
+font-size:14px;
 }
 
 .add{
@@ -104,76 +158,49 @@ background:#dc2626;
 color:white;
 }
 
-/* LOGIN */
-
-#login{
-position:fixed;
-inset:0;
-background:#0f172a;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:999;
-}
-
-.login-box{
+.info{
 background:white;
-padding:35px;
-border-radius:20px;
-width:350px;
+padding:18px;
+border-radius:18px;
+margin-bottom:30px;
+box-shadow:0 5px 20px rgba(0,0,0,0.06);
 }
 
-.login-box h2{
-margin-bottom:20px;
+.info h3{
+margin-bottom:10px;
 color:#0f172a;
 }
 
-.login-box input{
-width:100%;
-padding:12px;
-margin-bottom:15px;
-border:1px solid #cbd5e1;
-border-radius:10px;
-}
-
-.login-box button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#2563eb;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-/* AREAS */
+/* AREA */
 
 .area{
-margin-bottom:35px;
+margin-bottom:40px;
 }
 
 .area-title{
-font-size:22px;
-margin-bottom:15px;
+font-size:24px;
+font-weight:bold;
+margin-bottom:18px;
 color:#1e293b;
 display:flex;
 align-items:center;
 gap:10px;
 }
 
-/* CAMAS */
+/* GRID */
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-gap:15px;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:18px;
 }
+
+/* CARD */
 
 .cama{
 background:white;
-border-radius:18px;
 padding:18px;
+border-radius:18px;
 box-shadow:0 5px 15px rgba(0,0,0,0.08);
 transition:0.2s;
 }
@@ -183,12 +210,12 @@ transform:translateY(-4px);
 }
 
 .estado{
-padding:6px 12px;
+display:inline-block;
+padding:7px 14px;
 border-radius:20px;
 font-size:13px;
-display:inline-block;
-margin-bottom:12px;
 font-weight:bold;
+margin-bottom:12px;
 }
 
 .libre{
@@ -207,12 +234,14 @@ color:#92400e;
 }
 
 .cama h3{
-margin-bottom:10px;
+margin-bottom:14px;
 color:#0f172a;
 }
 
 .cama p{
-margin-bottom:6px;
+margin-top:10px;
+margin-bottom:5px;
+font-weight:bold;
 color:#334155;
 font-size:14px;
 }
@@ -220,21 +249,21 @@ font-size:14px;
 .cama input,
 .cama select{
 width:100%;
-padding:10px;
-margin-top:8px;
+padding:11px;
 border-radius:10px;
 border:1px solid #cbd5e1;
+margin-bottom:10px;
 }
 
 .btns{
 display:flex;
-gap:8px;
+gap:10px;
 margin-top:12px;
 }
 
 .btns button{
 flex:1;
-padding:10px;
+padding:11px;
 border:none;
 border-radius:10px;
 cursor:pointer;
@@ -251,46 +280,32 @@ background:#dc2626;
 color:white;
 }
 
-/* CREDENCIALES */
-
-.info{
-background:white;
-padding:15px;
-border-radius:15px;
-margin-bottom:25px;
-box-shadow:0 5px 15px rgba(0,0,0,0.06);
-}
-
-.info h3{
-margin-bottom:10px;
-color:#0f172a;
-}
-
-.info p{
-margin-bottom:5px;
-color:#334155;
-}
-
 </style>
 </head>
 
 <body>
 
+<!-- LOGIN -->
+
 <div id="login">
 
 <div class="login-box">
 
-<h2>Ingreso Hospital</h2>
+<h2>Hospital Regional de Talca</h2>
 
 <input type="text" id="user" placeholder="Usuario">
 
 <input type="password" id="pass" placeholder="Contraseña">
 
-<button onclick="login()">Ingresar</button>
+<button onclick="login()">
+Ingresar
+</button>
 
 </div>
 
 </div>
+
+<!-- SIDEBAR -->
 
 <div class="sidebar">
 
@@ -304,18 +319,20 @@ Hospital Talca
 <button>Dashboard</button>
 <button>Pacientes</button>
 <button>Camas</button>
-<button>Doctores</button>
 <button>Urgencias</button>
+<button>Doctores</button>
 
 </div>
 
 </div>
+
+<!-- MAIN -->
 
 <div class="main">
 
 <div class="top">
 
-<h1>Sistema Gestión de Camas</h1>
+<h1>Gestión de Camas</h1>
 
 <div class="actions">
 
@@ -336,9 +353,7 @@ Salir
 <h3>Credenciales</h3>
 
 <p><b>Administrador:</b> admin / admin123</p>
-
 <p><b>Doctor:</b> doctor / doctor123</p>
-
 <p><b>Enfermera:</b> enfermera / enfer123</p>
 
 </div>
@@ -384,10 +399,18 @@ area:"Pediatría"
 },
 
 {
-numero:"UTI-01",
+numero:"PED-02",
 estado:"reservada",
+paciente:"Martina Díaz",
+doctor:"Dra. Soto",
+area:"Pediatría"
+},
+
+{
+numero:"UTI-01",
+estado:"ocupada",
 paciente:"Luis Vega",
-doctor:"Dr. Soto",
+doctor:"Dr. Campos",
 area:"UTI"
 },
 
@@ -415,16 +438,16 @@ const u = document.getElementById("user").value;
 const p = document.getElementById("pass").value;
 
 if(
-(u=="admin" && p=="admin123") ||
-(u=="doctor" && p=="doctor123") ||
-(u=="enfermera" && p=="enfer123")
+(u==="admin" && p==="admin123") ||
+(u==="doctor" && p==="doctor123") ||
+(u==="enfermera" && p==="enfer123")
 ){
 
 document.getElementById("login").style.display="none";
 
 }else{
 
-alert("Credenciales incorrectas");
+alert("Usuario o contraseña incorrecta");
 
 }
 
@@ -432,25 +455,30 @@ alert("Credenciales incorrectas");
 
 function render(){
 
-const cont = document.getElementById("contenedor");
+const contenedor = document.getElementById("contenedor");
 
-cont.innerHTML="";
+contenedor.innerHTML = "";
 
 areas.forEach(area=>{
 
-const div = document.createElement("div");
+const camasArea = camas.filter(c=>c.area===area);
 
-div.className="area";
+let html = `
+<div class="area">
 
-div.innerHTML=`
 <div class="area-title">
 <i class="ti ti-hospital"></i>
 ${area}
 </div>
 
 <div class="grid">
+`;
 
-${camas.filter(c=>c.area===area).map((cama,index)=>`
+camasArea.forEach((cama)=>{
+
+const index = camas.indexOf(cama);
+
+html += `
 
 <div class="cama">
 
@@ -460,37 +488,37 @@ ${cama.estado.toUpperCase()}
 
 <h3>${cama.numero}</h3>
 
-<p><b>Paciente:</b></p>
+<p>Paciente</p>
 
 <input 
 type="text"
-value="${cama.paciente}"
 id="paciente-${index}"
+value="${cama.paciente}"
 placeholder="Nombre paciente"
 >
 
-<p><b>Doctor:</b></p>
+<p>Doctor</p>
 
 <input 
 type="text"
-value="${cama.doctor}"
 id="doctor-${index}"
+value="${cama.doctor}"
 placeholder="Nombre doctor"
 >
 
-<p><b>Estado:</b></p>
+<p>Estado</p>
 
 <select id="estado-${index}">
 
-<option value="libre" ${cama.estado=="libre"?"selected":""}>
+<option value="libre" ${cama.estado==="libre"?"selected":""}>
 Libre
 </option>
 
-<option value="ocupada" ${cama.estado=="ocupada"?"selected":""}>
+<option value="ocupada" ${cama.estado==="ocupada"?"selected":""}>
 Ocupada
 </option>
 
-<option value="reservada" ${cama.estado=="reservada"?"selected":""}>
+<option value="reservada" ${cama.estado==="reservada"?"selected":""}>
 Reservada
 </option>
 
@@ -510,27 +538,28 @@ Eliminar
 
 </div>
 
-`).join("")}
-
-</div>
 `;
 
-cont.appendChild(div);
+});
+
+html += `</div></div>`;
+
+contenedor.innerHTML += html;
 
 });
 
 }
 
-function guardar(i){
+function guardar(index){
 
-camas[i].paciente =
-document.getElementById(`paciente-${i}`).value;
+camas[index].paciente =
+document.getElementById(`paciente-${index}`).value;
 
-camas[i].doctor =
-document.getElementById(`doctor-${i}`).value;
+camas[index].doctor =
+document.getElementById(`doctor-${index}`).value;
 
-camas[i].estado =
-document.getElementById(`estado-${i}`).value;
+camas[index].estado =
+document.getElementById(`estado-${index}`).value;
 
 alert("Datos actualizados");
 
@@ -538,11 +567,11 @@ render();
 
 }
 
-function eliminar(i){
+function eliminar(index){
 
 if(confirm("¿Eliminar cama?")){
 
-camas.splice(i,1);
+camas.splice(index,1);
 
 render();
 
@@ -552,9 +581,9 @@ render();
 
 function agregarCama(){
 
-const numero = prompt("Número cama");
+const numero = prompt("Número de cama");
 
-const area = prompt("Área (Obstetricia, Pediatría, UTI, Medicina, Cirugía)");
+const area = prompt("Área: Obstetricia, Pediatría, UTI, Medicina o Cirugía");
 
 if(numero && area){
 
