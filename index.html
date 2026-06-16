@@ -1,559 +1,386 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control Hospitalario</title>
+    <style>
+        /* Paleta de colores Pasteles: Rosas y Celestes */
+        :root {
+            --bg-principal: #f4f9f9;
+            --rosa-pastel: #ffe5ec;
+            --rosa-fuerte: #ffb3c6;
+            --celeste-pastel: #e8f1f5;
+            --celeste-fuerte: #b3e5fc;
+            --texto: #4a5568;
+            --blanco: #ffffff;
+            --rojo-pastel: #ffccd5;
+            --verde-pastel: #cbf3f0;
+        }
 
-<title>Hospital Regional de Talca</title>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-principal);
+            color: var(--texto);
+            margin: 0;
+            padding: 20px;
+        }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, Helvetica, sans-serif;
-}
+        h1, h2 {
+            text-align: center;
+            color: #5a6b7c;
+        }
 
-body{
-background:#edf2f7;
-display:flex;
-min-height:100vh;
-}
+        /* Login */
+        .login-card {
+            background: var(--blanco);
+            max-width: 400px;
+            margin: 60px auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 2px solid var(--rosa-pastel);
+        }
 
-/* LOGIN */
-#login{
-position:fixed;
-inset:0;
-background:#0f172a;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
+        .login-card input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid var(--celeste-fuerte);
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
 
-.login-box{
-background:white;
-padding:35px;
-border-radius:20px;
-width:350px;
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
-}
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
 
-.login-box h2{
-margin-bottom:20px;
-text-align:center;
-color:#0f172a;
-}
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
 
-.login-box input{
-width:100%;
-padding:12px;
-margin-bottom:15px;
-border-radius:10px;
-border:1px solid #cbd5e1;
-font-size:15px;
-}
+        .card {
+            background: var(--blanco);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            border-top: 5px solid var(--rosa-fuerte);
+        }
 
-.login-box button{
-width:100%;
-padding:12px;
-border:none;
-background:#2563eb;
-color:white;
-border-radius:10px;
-font-weight:bold;
-cursor:pointer;
-font-size:15px;
-}
+        .card.doctor-section {
+            border-top: 5px solid var(--celeste-fuerte);
+        }
 
-.login-box button:hover{
-background:#1d4ed8;
-}
+        /* Botones */
+        button {
+            background-color: var(--celeste-fuerte);
+            color: var(--texto);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
 
-/* SIDEBAR */
-.sidebar{
-width:240px;
-background:#0f172a;
-color:white;
-padding:20px;
-position:fixed;
-top:0;
-left:0;
-bottom:0;
-overflow:auto;
-}
+        button:hover {
+            background-color: var(--rosa-fuerte);
+        }
 
-.logo{
-font-size:22px;
-font-weight:bold;
-margin-bottom:30px;
-display:flex;
-align-items:center;
-gap:10px;
-}
+        button.btn-eliminar {
+            background-color: var(--rojo-pastel);
+            padding: 5px 10px;
+            font-size: 0.9em;
+        }
 
-.menu button{
-width:100%;
-padding:13px;
-margin-bottom:10px;
-border:none;
-border-radius:12px;
-background:#1e293b;
-color:white;
-cursor:pointer;
-font-size:15px;
-text-align: left;
-display: flex;
-align-items: center;
-gap: 10px;
-transition:0.2s;
-}
+        button.btn-eliminar:hover {
+            background-color: #ff4d6d;
+            color: white;
+        }
 
-.menu button:hover, .menu button.active{
-background:#334155;
-}
+        button.btn-estado {
+            padding: 5px 10px;
+            font-size: 0.9em;
+        }
 
-/* MAIN */
-.main{
-margin-left:240px;
-flex:1;
-padding:25px;
-}
+        /* Listas y Elementos */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
 
-.top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
-}
+        li {
+            background: var(--bg-principal);
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--celeste-fuerte);
+        }
 
-.top h1{
-color:#0f172a;
-font-size:30px;
-}
+        .logout-container {
+            text-align: right;
+            margin-bottom: 20px;
+        }
 
-.actions{
-display:flex;
-gap:10px;
-}
+        .badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
 
-.actions button{
-padding:12px 18px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-font-weight:bold;
-font-size:14px;
-}
+        .badge.rol { background: var(--rosa-pastel); }
+        .badge.disponible { background: var(--verde-pastel); color: #0f4c3a; }
+        .badge.ocupada { background: var(--rojo-pastel); color: #5c0f1b; }
 
-.add{
-background:#16a34a;
-color:white;
-}
-
-.logout{
-background:#dc2626;
-color:white;
-}
-
-.info{
-background:white;
-padding:18px;
-border-radius:18px;
-margin-bottom:30px;
-box-shadow:0 5px 20px rgba(0,0,0,0.06);
-}
-
-.info h3{
-margin-bottom:10px;
-color:#0f172a;
-}
-
-/* AREA */
-.area{
-margin-bottom:40px;
-}
-
-.area-title{
-font-size:24px;
-font-weight:bold;
-margin-bottom:18px;
-color:#1e293b;
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-gap:18px;
-}
-
-/* CARD */
-.cama{
-background:white;
-padding:18px;
-border-radius:18px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
-transition:0.2s;
-}
-
-.cama:hover{
-transform:translateY(-4px);
-}
-
-.estado{
-display:inline-block;
-padding:7px 14px;
-border-radius:20px;
-font-size:13px;
-font-weight:bold;
-margin-bottom:12px;
-}
-
-.libre{
-background:#dcfce7;
-color:#166534;
-}
-
-.ocupada{
-background:#fee2e2;
-color:#991b1b;
-}
-
-.reservada{
-background:#fef3c7;
-color:#92400e;
-}
-
-.cama h3{
-margin-bottom:14px;
-color:#0f172a;
-}
-
-.cama p{
-margin-top:10px;
-margin-bottom:5px;
-font-weight:bold;
-color:#334155;
-font-size:14px;
-}
-
-.cama input,
-.cama select{
-width:100%;
-padding:11px;
-border-radius:10px;
-border:1px solid #cbd5e1;
-margin-bottom:10px;
-}
-
-.cama input:disabled,
-.cama select:disabled {
-background: #f1f5f9;
-color: #64748b;
-cursor: not-allowed;
-}
-
-.btns{
-display:flex;
-gap:10px;
-margin-top:12px;
-}
-
-.btns button{
-flex:1;
-padding:11px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.save{
-background:#2563eb;
-color:white;
-}
-
-.delete{
-background:#dc2626;
-color:white;
-}
-
-/* TABLAS VISTAS ADICIONALES */
-.vista-tabla {
-width: 100%;
-border-collapse: collapse;
-background: white;
-border-radius: 12px;
-overflow: hidden;
-box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-}
-
-.vista-tabla th, .vista-tabla td {
-padding: 14px;
-text-align: left;
-border-bottom: 1px solid #e2e8f0;
-}
-
-.vista-tabla th {
-background: #1e293b;
-color: white;
-}
-</style>
+        .acciones-cama {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="login">
-<div class="login-box">
-<h2>Hospital Regional de Talca</h2>
-<input type="text" id="user" placeholder="Usuario">
-<input type="password" id="pass" placeholder="Contraseña">
-<button onclick="login()">Ingresar</button>
-</div>
-</div>
+<div class="container">
 
-<div class="sidebar">
-<div class="logo">
-<i class="ti ti-building-hospital"></i>
-Hospital Talca
-</div>
-<div class="menu">
-<button onclick="cambiarVista('camas')"><i class="ti ti-bed"></i> Camas</button>
-<button onclick="cambiarVista('pacientes')"><i class="ti ti-user"></i> Pacientes</button>
-<button onclick="cambiarVista('urgencias')"><i class="ti ti-alert-triangle"></i> Urgencias</button>
-<button onclick="cambiarVista('doctores')"><i class="ti ti-stethoscope"></i> Doctores</button>
-</div>
-</div>
+    <div id="loginSection" class="login-card">
+        <h2>Iniciar Sesión</h2>
+        <p style="text-align: center; font-size: 0.9em; color: #888; line-height: 1.5;">
+            Admin: <b>admin</b> / <b>123</b><br>
+            Doctor: <b>doctor</b> / <b>123</b><br>
+            Enfermera: <b>enfermera</b> / <b>123</b>
+        </p>
+        <input type="text" id="username" placeholder="Usuario">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="login()" style="width: 100%;">Entrar</button>
+    </div>
 
-<div class="main">
-<div class="top">
-<h1 id="titulo-pagina">Gestión de Camas</h1>
-<div class="actions">
-<button class="add" id="btn-agregar-cama" onclick="agregarCama()">Agregar Cama</button>
-<button class="logout" onclick="cerrarSesion()">Salir</button>
-</div>
-</div>
+    <div id="dashboardSection" class="dashboard">
+        <div class="logout-container">
+            <span id="userSession" style="margin-right: 15px; font-weight: bold;"></span>
+            <button onclick="logout()" style="background-color: var(--rosa-pastel);">Cerrar Sesión</button>
+        </div>
 
+        <h1 id="welcomeTitle">Panel del Hospital</h1>
 
+        <div class="grid">
+            
+            <div class="card">
+                <h2>Gestión de Camas Disponibles</h2>
+                <div id="panelAgregarCama" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="text" id="camaNombre" placeholder="Ej. Cama 104" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                    <button onclick="agregarCama()">Agregar Cama</button>
+                </div>
+                <ul id="listaCamas">
+                    </ul>
+            </div>
 
-<div id="contenedor"></div>
+            <div class="card doctor-section">
+                <h2>Personal Médico</h2>
+                <div id="adminDoctorControl" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="text" id="docNombre" placeholder="Nombre del Doctor" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                    <input type="text" id="docEspecialidad" placeholder="Especialidad" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                    <button onclick="agregarDoctor()">Agregar</button>
+                </div>
+                <ul id="listaDoctores">
+                    </ul>
+            </div>
+
+        </div>
+    </div>
+
 </div>
 
 <script>
-// Variable global para controlar qué rol está conectado
-let usuarioRol = ""; 
+    // Variables globales de sesión y datos simulados
+    let usuarioActual = "";
+    let rolActual = "";
 
-const areas = ["Obstetricia", "Pediatría", "UTI", "Medicina", "Cirugía"];
+    const datos = {
+        camas: [
+            { nombre: "Cama 101 - General", ocupada: false },
+            { nombre: "Cama 102 - Trauma", ocupada: true },
+            { nombre: "Cama 201 - Pediatría", ocupada: false }
+        ],
+        doctores: [
+            { nombre: "Dr. Carlos Mendoza", esp: "Cardiología" },
+            { nombre: "Dra. Elena Rostova", esp: "Pediatría" }
+        ]
+    };
 
-let camas = [
-{ numero:"OBS-01", estado:"ocupada", paciente:"Camila Rojas", doctor:"Dra. Herrera", area:"Obstetricia" },
-{ numero:"OBS-02", estado:"libre", paciente:"", doctor:"", area:"Obstetricia" },
-{ numero:"PED-01", estado:"ocupada", paciente:"Tomás Silva", doctor:"Dr. Morales", area:"Pediatría" },
-{ numero:"PED-02", estado:"reservada", paciente:"Martina Díaz", doctor:"Dra. Soto", area:"Pediatría" },
-{ numero:"UTI-01", estado:"ocupada", paciente:"Luis Vega", doctor:"Dr. Campos", area:"UTI" },
-{ numero:"MED-01", estado:"ocupada", paciente:"Andrea Torres", doctor:"Dra. Riquelme", area:"Medicina" },
-{ numero:"CIR-01", estado:"libre", paciente:"", doctor:"", area:"Cirugía" }
-];
+    // Sistema de Credenciales Fáciles
+    function login() {
+        const user = document.getElementById('username').value.toLowerCase().trim();
+        const pass = document.getElementById('password').value;
 
-function login(){
-const u = document.getElementById("user").value;
-const p = document.getElementById("pass").value;
+        if (user === "admin" && pass === "123") {
+            loguearUsuario(user, "admin");
+        } else if (user === "doctor" && pass === "123") {
+            loguearUsuario(user, "doctor");
+        } else if (user === "enfermera" && pass === "123") {
+            loguearUsuario(user, "enfermera");
+        } else {
+            alert("Credenciales incorrectas. Intenta con admin/123, doctor/123 o enfermera/123");
+        }
+    }
 
-if(u==="admin" && p==="admin123"){
-usuarioRol = "admin";
-} else if(u==="doctor" && p==="doctor123"){
-usuarioRol = "doctor";
-} else if(u==="enfermera" && p==="enfer123"){
-usuarioRol = "enfermera";
-} else {
-alert("Usuario o contraseña incorrecta");
-return;
-}
+    function loguearUsuario(username, rol) {
+        usuarioActual = username;
+        rolActual = rol;
+        
+        document.getElementById('loginSection').style.display = 'none';
+        document.getElementById('dashboardSection').style.display = 'block';
+        document.getElementById('userSession').innerText = `Usuario: ${username.toUpperCase()} (${rol.toUpperCase()})`;
+        
+        // Configuración de interfaz según rol dinámico
+        if (rol === "admin") {
+            document.getElementById('welcomeTitle').innerText = "Panel del Administrador";
+            document.getElementById('panelAgregarCama').style.display = 'flex';
+            document.getElementById('adminDoctorControl').style.display = 'flex';
+        } 
+        else if (rol === "doctor") {
+            document.getElementById('welcomeTitle').innerText = "Panel del Doctor";
+            document.getElementById('panelAgregarCama').style.display = 'flex';
+            document.getElementById('adminDoctorControl').style.display = 'none'; // No maneja doctores
+        } 
+        else if (rol === "enfermera") {
+            document.getElementById('welcomeTitle').innerText = "Panel de Enfermería";
+            document.getElementById('panelAgregarCama').style.display = 'none';  // No agrega camas nuevas
+            document.getElementById('adminDoctorControl').style.display = 'none'; // No maneja doctores
+        }
 
-document.getElementById("login").style.display="none";
+        renderizarTodo();
+    }
 
-// Ocultar botón de agregar camas si es enfermera
-if(usuarioRol === "enfermera") {
-document.getElementById("btn-agregar-cama").style.display = "none";
-} else {
-document.getElementById("btn-agregar-cama").style.display = "block";
-}
+    function logout() {
+        document.getElementById('loginSection').style.display = 'block';
+        document.getElementById('dashboardSection').style.display = 'none';
+        document.getElementById('username').value = "";
+        document.getElementById('password').value = "";
+    }
 
-cambiarVista('camas'); 
-}
+    // Renderizar Listas en Pantalla considerando los permisos de roles
+    function renderizarTodo() {
+        // --- RENDER CAMAS ---
+        const listaCamas = document.getElementById('listaCamas');
+        listaCamas.innerHTML = "";
+        
+        datos.camas.forEach((cama, index) => {
+            const estadoTexto = cama.ocupada ? "Ocupada" : "Disponible";
+            const estadoClase = cama.ocupada ? "ocupada" : "disponible";
+            const botonEstadoTexto = cama.ocupada ? "Marcar Desocupada" : "Marcar Ocupada";
 
-function cambiarVista(vista) {
-const contenedor = document.getElementById("contenedor");
-const titulo = document.getElementById("titulo-pagina");
+            // Permisos para Camas: Admin y Enfermera pueden Eliminar y cambiar Estado.
+            const puedeModificarCamas = (rolActual === 'admin' || rolActual === 'enfermera');
+            
+            const accionesHTML = puedeModificarCamas ? `
+                <div class="acciones-cama">
+                    <button class="btn-estado" onclick="alternarEstadoCama(${index})" style="background-color: var(--celeste-pastel)">${botonEstadoTexto}</button>
+                    <button class="btn-eliminar" onclick="eliminarCama(${index})">Eliminar</button>
+                </div>
+            ` : '';
 
-if(vista === 'camas') {
-titulo.innerText = "Gestión de Camas";
-renderCamas();
-} 
-else if(vista === 'pacientes') {
-titulo.innerText = "Listado de Pacientes";
-let html = `
-<table class="vista-tabla">
-<thead><tr><th>Paciente</th><th>Cama</th><th>Área</th></tr></thead>
-<tbody>
-`;
-camas.forEach(c => {
-if(c.paciente) {
-html += `<tr><td>${c.paciente}</td><td>${c.numero}</td><td>${c.area}</td></tr>`;
-}
-});
-html += `</tbody></table>`;
-contenedor.innerHTML = html;
-} 
-else if(vista === 'urgencias') {
-titulo.innerText = "Urgencias Activas";
-contenedor.innerHTML = `
-<table class="vista-tabla">
-<thead><tr><th>Gravedad</th><th>Motivo</th><th>Tiempo de Espera</th></tr></thead>
-<tbody>
-<tr><td><span style="color:red; font-weight:bold;">Alta</span></td><td>Trauma severo</td><td>5 min</td></tr>
-<tr><td><span style="color:orange; font-weight:bold;">Media</span></td><td>Fiebre alta pediátrica</td><td>20 min</td></tr>
-<tr><td><span style="color:green; font-weight:bold;">Baja</span></td><td>Consulta general</td><td>45 min</td></tr>
-</tbody>
-</table>`;
-} 
-else if(vista === 'doctores') {
-titulo.innerText = "Contactos de Doctores";
-contenedor.innerHTML = `
-<table class="vista-tabla">
-<thead><tr><th>Doctor/a</th><th>Especialidad / Área</th><th>Anexo/Contacto</th></tr></thead>
-<tbody>
-<tr><td>Dra. Herrera</td><td>Obstetricia</td><td>#4011</td></tr>
-<tr><td>Dr. Morales</td><td>Pediatría</td><td>#4022</td></tr>
-<tr><td>Dra. Soto</td><td>Pediatría</td><td>#4023</td></tr>
-<tr><td>Dr. Campos</td><td>UTI</td><td>#4050</td></tr>
-<tr><td>Dra. Riquelme</td><td>Medicina</td><td>#4088</td></tr>
-</tbody>
-</table>`;
-}
-}
+            listaCamas.innerHTML += `
+                <li>
+                    <div>
+                        <span>🛏️ <b>${cama.nombre}</b></span>
+                        <span class="badge ${estadoClase}">${estadoTexto}</span>
+                    </div>
+                    ${accionesHTML}
+                </li>
+            `;
+        });
 
-function renderCamas(){
-const contenedor = document.getElementById("contenedor");
-contenedor.innerHTML = "";
+        // --- RENDER DOCTORES ---
+        const listaDoctores = document.getElementById('listaDoctores');
+        listaDoctores.innerHTML = "";
+        
+        datos.doctores.forEach((doc, index) => {
+            // Solo se muestra el botón eliminar doctores si es Administrador
+            const botonEliminarDoc = (rolActual === 'admin') 
+                ? `<button class="btn-eliminar" onclick="eliminarDoctor(${index})">Eliminar</button>` 
+                : '';
 
-areas.forEach(area=>{
-const camasArea = camas.filter(c=>c.area===area);
+            listaDoctores.innerHTML += `
+                <li>
+                    <div>
+                        <strong>${doc.nombre}</strong> <span class="badge rol">${doc.esp}</span>
+                    </div>
+                    ${botonEliminarDoc}
+                </li>
+            `;
+        });
+    }
 
-let html = `
-<div class="area">
-<div class="area-title"><i class="ti ti-hospital"></i> ${area}</div>
-<div class="grid">
-`;
+    // --- FUNCIONES DE CAMAS ---
+    function agregarCama() {
+        // Solo Admin y Doctor pueden crear camas
+        if (rolActual === 'admin' || rolActual === 'doctor') {
+            const nombre = document.getElementById('camaNombre').value;
+            if(nombre.trim() !== "") {
+                datos.camas.push({ nombre: nombre, ocupada: false });
+                document.getElementById('camaNombre').value = "";
+                renderizarTodo();
+            }
+        }
+    }
 
-camasArea.forEach((cama)=>{
-const index = camas.indexOf(cama);
-const esEnfermera = (usuarioRol === "enfermera");
+    function eliminarCama(index) {
+        // Admin y Enfermera pueden eliminar camas
+        if (rolActual === 'admin' || rolActual === 'enfermera') {
+            datos.camas.splice(index, 1);
+            renderizarTodo();
+        } else {
+            alert("No tienes permisos para eliminar camas.");
+        }
+    }
 
-// Si es enfermera, deshabilitamos campos de texto
-const disabledAttr = esEnfermera ? "disabled" : "";
+    function alternarEstadoCama(index) {
+        // Admin y Enfermera pueden cambiar el estado libre/ocupado
+        if (rolActual === 'admin' || rolActual === 'enfermera') {
+            datos.camas[index].ocupada = !datos.camas[index].ocupada;
+            renderizarTodo();
+        } else {
+            alert("No tienes permisos para cambiar el estado de las camas.");
+        }
+    }
 
-html += `
-<div class="cama">
-<div class="estado ${cama.estado}">${cama.estado.toUpperCase()}</div>
-<h3>${cama.numero}</h3>
+    // --- FUNCIONES DE DOCTORES ---
+    function agregarDoctor() {
+        if(rolActual === 'admin') {
+            const nombre = document.getElementById('docNombre').value;
+            const esp = document.getElementById('docEspecialidad').value;
+            
+            if(nombre.trim() !== "" && esp.trim() !== "") {
+                datos.doctores.push({ nombre: "Dr. " + nombre, esp: esp });
+                document.getElementById('docNombre').value = "";
+                document.getElementById('docEspecialidad').value = "";
+                renderizarTodo();
+            }
+        }
+    }
 
-<p>Paciente</p>
-<input type="text" id="paciente-${index}" value="${cama.paciente}" placeholder="Ninguno" ${disabledAttr}>
-
-<p>Doctor</p>
-<input type="text" id="doctor-${index}" value="${cama.doctor}" placeholder="Ninguno" ${disabledAttr}>
-
-<p>Estado</p>
-<select id="estado-${index}">
-`;
-
-// Lógica de opciones según rol
-if(esEnfermera) {
-if(cama.estado === "libre") {
-html += `<option value="libre" selected>Libre</option>`;
-} else {
-// Si está ocupada o reservada, la enfermera puede mantenerla igual o cambiarla a Libre
-html += `<option value="${cama.estado}" selected>${cama.estado.charAt(0).toUpperCase() + cama.estado.slice(1)}</option>`;
-html += `<option value="libre">Libre</option>`;
-}
-} else {
-// Administradores y Doctores ven todo el menú desplegable siempre
-html += `<option value="libre" ${cama.estado==="libre"?"selected":""}>Libre</option>`;
-html += `<option value="ocupada" ${cama.estado==="ocupada"?"selected":""}>Ocupada</option>`;
-html += `<option value="reservada" ${cama.estado==="reservada"?"selected":""}>Reservada</option>`;
-}
-
-html += `
-</select>
-<div class="btns">
-<button class="save" onclick="guardar(${index})">Guardar</button>
-${!esEnfermera ? `<button class="delete" onclick="eliminar(${index})">Eliminar</button>` : ''}
-</div>
-</div>
-`;
-});
-
-html += `</div></div>`;
-contenedor.innerHTML += html;
-});
-}
-
-function guardar(index){
-const nuevoEstado = document.getElementById(`estado-${index}`).value;
-
-if(usuarioRol === "enfermera") {
-// Si la enfermera la deja libre, se limpian los campos automáticamente
-if(nuevoEstado === "libre") {
-camas[index].paciente = "";
-camas[index].doctor = "";
-}
-camas[index].estado = nuevoEstado;
-} else {
-// Admin y Doctor guardan todo lo que escriban
-camas[index].paciente = document.getElementById(`paciente-${index}`).value;
-camas[index].doctor = document.getElementById(`doctor-${index}`).value;
-camas[index].estado = nuevoEstado;
-}
-
-alert("Datos actualizados con éxito");
-renderCamas();
-}
-
-function eliminar(index){
-if(confirm("¿Eliminar cama?")){
-camas.splice(index,1);
-renderCamas();
-}
-}
-
-function agregarCama(){
-const numero = prompt("Número de cama");
-const area = prompt("Área: Obstetricia, Pediatría, UTI, Medicina o Cirugía");
-
-if(numero && area){
-camas.push({
-numero:numero,
-estado:"libre",
-paciente:"",
-doctor:"",
-area:area
-});
-renderCamas();
-}
-}
-
-function cerrarSesion(){
-location.reload();
-}
+    function eliminarDoctor(index) {
+        if(rolActual === 'admin') {
+            datos.doctores.splice(index, 1);
+            renderizarTodo();
+        } else {
+            alert("Acción denegada: Solo el Administrador puede eliminar doctores.");
+        }
+    }
 </script>
 
 </body>
 </html>
-
