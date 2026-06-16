@@ -3,352 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BedTrak 2026 - Presentación Oficial con QR</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <title>BedTrak 2026 - Sistema Clínico Hospitalario</title>
     <style>
         :root {
-            --rosa-claro: #fff0f3;
-            --rosa-medio: #ffccd5;
+            --bg-principal: #f4f9f9;
+            --rosa-pastel: #ffe5ec;
             --rosa-fuerte: #ffb3c6;
-            --celeste-claro: #e8f1f5;
-            --celeste-medio: #b3e5fc;
-            --celeste-fuerte: #80d8ff;
-            --texto: #475569;
+            --celeste-pastel: #e8f1f5;
+            --celeste-fuerte: #b3e5fc;
+            --texto: #4a5568;
             --blanco: #ffffff;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --rojo-pastel: #ffccd5;
+            --verde-pastel: #cbf3f0;
+            --amarillo-pastel: #fefae0;
+            --amarillo-alerta: #ffe3e3;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--rosa-claro) 0%, var(--celeste-claro) 100%);
+            background-color: var(--bg-principal);
             color: var(--texto);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            margin: 0;
+            padding: 20px;
         }
 
-        .presentation-container {
-            position: relative;
-            width: 95vw;
-            max-width: 1200px;
-            height: 85vh;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-            border: 2px solid var(--blanco);
-            overflow: hidden;
-        }
+        .container { max-width: 1300px; margin: 0 auto; }
+        h1, h2, h3 { text-align: center; color: #5a6b7c; }
 
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 2.5s ease-in-out, visibility 2.5s ease-in-out;
-            z-index: 1;
-        }
-
-        .slide.active {
-            opacity: 1;
-            visibility: visible;
-            z-index: 2;
-        }
-
-        .slide-content {
-            padding: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: linear-gradient(90deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
-            padding-right: 40px;
-        }
-
-        .slide-tag {
-            align-self: flex-start;
-            background: var(--rosa-medio);
-            color: #b7094c;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-
-        .slide-title {
-            font-size: 2.6rem;
-            color: #334155;
+        /* Estilo para el Logo BedTrak 2026 */
+        .brand-title {
+            text-align: center;
+            font-size: 2.5rem;
             font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-
-        .slide-title span {
-            background: linear-gradient(45deg, #74c69d, #80d8ff);
+            margin-bottom: 5px;
+            letter-spacing: -1px;
+            background: linear-gradient(45deg, #a2d2ff, #ffb3c6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.03);
         }
 
-        .slide-text {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: #64748b;
-            margin-bottom: 15px;
-        }
-
-        .slide-slogan {
-            font-size: 0.95rem;
-            font-style: italic;
-            color: #b7094c;
-            font-weight: 600;
-            border-left: 3px solid var(--rosa-fuerte);
-            padding-left: 10px;
-            margin-top: 10px;
-        }
-
-        .slide-image-wrapper {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .slide-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 22s ease;
-        }
-
-        .slide.active .slide-image {
-            transform: scale(1.08);
-        }
-
-        .brand-watermark {
-            position: absolute;
-            top: 25px;
-            left: 40px;
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #64748b;
-            z-index: 10;
-        }
-        .brand-watermark span {
-            color: var(--rosa-fuerte);
-        }
-
-        /* Contenedor Fijo Estético para el QR Integrado */
-        .fixed-qr-panel {
-            position: absolute;
-            bottom: 30px;
-            right: 30px;
-            background: rgba(255, 255, 255, 0.92);
-            padding: 15px;
-            border-radius: 18px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            border: 2px solid var(--rosa-medio);
+        .brand-subtitle {
             text-align: center;
-            z-index: 20;
-            width: 160px;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .fixed-qr-panel p {
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #334155;
-            margin-top: 8px;
-            line-height: 1.2;
+        /* Login */
+        .login-card {
+            background: var(--blanco);
+            max-width: 400px;
+            margin: 60px auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 2px solid var(--rosa-pastel);
+        }
+        .login-card input {
+            width: 100%; padding: 10px; margin: 10px 0;
+            border: 1px solid var(--celeste-fuerte); border-radius: 8px; box-sizing: border-box;
         }
 
-        #qrcode img {
-            margin: 0 auto;
-            border-radius: 6px;
+        /* Dashboard */
+        .dashboard { display: none; }
+        .grid { display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 20px; margin-top: 20px; }
+        .card {
+            background: var(--blanco); padding: 20px; border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02); border-top: 5px solid var(--rosa-fuerte);
+            margin-bottom: 20px;
+        }
+        .card.doctor-section { border-top: 5px solid var(--celeste-fuerte); }
+
+        /* Formularios Internos */
+        .form-group {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px; margin-bottom: 15px; background: var(--bg-principal); padding: 15px; border-radius: 10px;
+        }
+        .form-group input, .form-group select {
+            padding: 8px; border-radius: 5px; border: 1px solid #ccc; width: 100%; box-sizing: border-box;
         }
 
-        .progress-bar-container {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: rgba(0,0,0,0.03);
-            z-index: 10;
+        /* Botones */
+        button {
+            background-color: var(--celeste-fuerte); color: var(--texto); border: none;
+            padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.3s;
         }
+        button:hover { background-color: var(--rosa-fuerte); }
+        button.btn-eliminar { background-color: var(--rojo-pastel); padding: 5px 10px; font-size: 0.85em; }
+        button.btn-eliminar:hover { background-color: #ff4d6d; color: white; }
+        button.btn-accion { background-color: var(--celeste-pastel); padding: 5px 10px; font-size: 0.85em; }
+        button.btn-alta { background-color: #ffccd5; padding: 5px 10px; font-size: 0.85em; color: #b7094c; }
 
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--celeste-fuerte), var(--rosa-fuerte));
+        /* Camas Estilo Detallado */
+        .cama-item {
+            background: var(--bg-principal); padding: 15px; margin: 12px 0;
+            border-radius: 10px; border-left: 6px solid var(--celeste-fuerte);
         }
+        .cama-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 5px; }
+        .cama-detalles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 10px 0; font-size: 0.9em; }
+        .receta-box { background: var(--blanco); padding: 10px; border-radius: 8px; border: 1px dashed #cbd5e1; margin-top: 5px; }
 
-        .dots-navigation {
-            position: absolute;
-            bottom: 30px;
-            left: 60px;
-            display: flex;
-            gap: 10px;
-            z-index: 10;
-        }
+        /* Badges */
+        .badge { padding: 3px 8px; border-radius: 12px; font-size: 0.8em; font-weight: bold; display: inline-block; }
+        .badge.Alta { background-color: #ffccd5; color: #ff4d6d; }
+        .badge.Media { background-color: #ffe5ec; color: #ffb3c6; }
+        .badge.Baja { background-color: #cbf3f0; color: #0f4c3a; }
+        .badge.disponible { background: #e2e8f0; }
+        .badge.ocupada { background: var(--rosa-fuerte); }
+        .badge.solicitada { background: #fefae0; color: #b79400; border: 1px solid #f5cb5c; }
 
-        .dot {
-            width: 10px;
-            height: 10px;
-            background: #cbd5e1;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .dot.active {
-            width: 30px;
-            border-radius: 10px;
-            background: var(--rosa-fuerte);
-        }
+        .historial-dosis { font-size: 0.8em; color: #718096; max-height: 60px; overflow-y: auto; margin-top: 5px; background: #fff; padding: 5px; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <div class="presentation-container">
-        <div class="brand-watermark">BedTrak <span>2026</span></div>
+<div class="container">
 
-        <!-- PANEL DE QR FIJO -->
-        <div class="fixed-qr-panel">
-            <div id="qrcode"></div>
-            <p>¡Escanea y prueba<br>la App en vivo!</p>
-        </div>
-
-        <!-- DIAPOSITIVA 1 -->
-        <div class="slide active">
-            <div class="slide-content">
-                <div class="slide-tag" style="background-color: var(--celeste-medio); color: #0284c7;">Innovación Médica</div>
-                <h2 class="slide-title">¿Qué es <span>BedTrak 2026</span>?</h2>
-                <p class="slide-text">BedTrak es una plataforma web inteligente de control logístico clínico. Centraliza el estado de las camas, los historiales de dosis de medicamentos y la comunicación médica en un solo entorno unificado y de alta disponibilidad.</p>
-                <div class="slide-slogan">"Tecnología que cuida, gestión que salva vidas"</div>
-            </div>
-            <div class="slide-image-wrapper">
-                <img src="https://images.unsplash.com/photo-1586773860418-d3b3de97e663?auto=format&fit=crop&q=80&w=600" class="slide-image" alt="Hospital Bed 1">
-            </div>
-        </div>
-
-        <!-- DIAPOSITIVA 2 -->
-        <div class="slide">
-            <div class="slide-content">
-                <div class="slide-tag">El Desafío</div>
-                <h2 class="slide-title">Adiós al Caos del <span>Papeleo</span></h2>
-                <p class="slide-text">Los métodos analógicos y las pizarras físicas retrasan el flujo de información. Cada minuto perdido buscando una cama libre pone en riesgo el bienestar del paciente.</p>
-                <div class="slide-slogan">"Tecnología que cuida, gestión que salva vidas"</div>
-            </div>
-            <div class="slide-image-wrapper">
-                <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=600" class="slide-image" alt="Hospital Bed 2">
-            </div>
-        </div>
-
-        <!-- DIAPOSITIVA 3 -->
-        <div class="slide">
-            <div class="slide-content">
-                <div class="slide-tag" style="background-color: var(--celeste-medio); color: #0284c7;">Roles Clave</div>
-                <h2 class="slide-title">Control Clínico del <span>Médico</span></h2>
-                <p class="slide-text">El médico asigna pacientes, define los medicamentos, califica el rango de urgencia y tiene la autoridad exclusiva para firmar y aprobar el alta definitiva.</p>
-                <div class="slide-slogan">"Tecnología que cuida, gestión que salva vidas"</div>
-            </div>
-            <div class="slide-image-wrapper">
-                <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=600" class="slide-image" alt="Hospital Bed 3">
-            </div>
-        </div>
-
-        <!-- DIAPOSITIVA 4 -->
-        <div class="slide">
-            <div class="slide-content">
-                <div class="slide-tag">Monitoreo Activo</div>
-                <h2 class="slide-title">Control de Dosis de <span>Enfermería</span></h2>
-                <p class="slide-text">La enfermera registra la administración exacta de medicamentos cada hora, organiza áreas y genera alertas instantáneas de "Solicitud de Alta" para el doctor.</p>
-                <div class="slide-slogan">"Tecnología que cuida, gestión que salva vidas"</div>
-            </div>
-            <div class="slide-image-wrapper">
-                <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=600" class="slide-image" alt="Hospital Bed 4">
-            </div>
-        </div>
-
-        <!-- DIAPOSITIVA 5 -->
-        <div class="slide">
-            <div class="slide-content">
-                <div class="slide-tag" style="background-color: var(--celeste-medio); color: #0284c7;">Eficiencia Total</div>
-                <h2 class="slide-title">Impacto en la <span>Salud</span></h2>
-                <p class="slide-text">BedTrak 2026 reduce los tiempos muertos logísticos en un hospital, previene fallas de comunicación y humaniza la tecnología al servicio de la medicina.</p>
-                <div class="slide-slogan">"Tecnología que cuida, gestión que salva vidas"</div>
-            </div>
-            <div class="slide-image-wrapper">
-                <img src="https://images.unsplash.com/photo-1538108149393-fdfd8169687d?auto=format&fit=crop&q=80&w=600" class="slide-image" alt="Hospital Bed 5">
-            </div>
-        </div>
-
-        <div class="dots-navigation" id="dotsContainer"></div>
-        <div class="progress-bar-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
+    <div id="loginSection" class="login-card">
+        <div class="brand-title">BedTrak 2026</div>
+        <div class="brand-subtitle">Gestión Hospitalaria</div>
+        
+        <h2>Ingreso al Sistema</h2>
+        <p style="text-align: center; font-size: 0.85em; color: #888; line-height: 1.4;">
+            <b>admin</b> / 123 &nbsp;|&nbsp; <b>doctor</b> / 123 &nbsp;|&nbsp; <b>enfermera</b> / 123
+        </p>
+        <input type="text" id="username" placeholder="Usuario">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="login()" style="width: 100%;">Entrar</button>
     </div>
 
-    <script>
-        const slides = document.querySelectorAll('.slide');
-        const dotsContainer = document.getElementById('dotsContainer');
-        const progressBar = document.getElementById('progressBar');
-        let currentSlide = 0;
-        const slideIntervalTime = 20000; 
+    <div id="dashboardSection" class="dashboard">
+        <div style="text-align: right; margin-bottom: 20px;">
+            <span style="font-size: 1.1rem; font-weight: bold; float: left; color: #8a99ad;">BedTrak 2026</span>
+            <span id="userSession" style="margin-right: 15px; font-weight: bold;"></span>
+            <button onclick="logout()" style="background-color: var(--rosa-pastel);">Cerrar Sesión</button>
+        </div>
 
-        new QRCode(document.getElementById("qrcode"), {
-            text: "https://yvsliinn.github.io/Innovacion/",
-            width: 130,
-            height: 130,
-            colorDark : "#334155",
-            colorLight : "#ffffff",
-            correctLevel : QRCode.CorrectLevel.H
+        <h1 id="welcomeTitle">Cargando...</h1>
+
+        <div class="grid">
+            
+            <div>
+                <div class="card">
+                    <h2>Monitoreo y Control de Camas</h2>
+                    
+                    <div id="formAdminCama" class="form-group" style="display:none;">
+                        <input type="text" id="camaNombreAdmin" placeholder="Nombre/Número de Cama (Ej: Cama 302)">
+                        <input type="text" id="camaAreaAdmin" placeholder="Área (Ej: Urgencias, UCI)">
+                        <button onclick="adminAgregarCama()">Agregar Cama (Admin)</button>
+                    </div>
+
+                    <div id="formEnfermeraCama" class="form-group" style="display:none;">
+                        <select id="selectCamaEnfermera"><option value="">Selecciona Cama para Modificar Area/Sala</option></select>
+                        <input type="text" id="camaAreaEnfermera" placeholder="Nueva Área">
+                        <input type="text" id="camaSalaEnfermera" placeholder="Nueva Sala">
+                        <button onclick="enfermeraActualizarCama()">Actualizar Área/Sala</button>
+                    </div>
+
+                    <div id="formDoctorCama" class="form-group" style="display:none;">
+                        <select id="selectCamaDoctor"><option value="">Selecciona Cama para Asignar Paciente</option></select>
+                        <input type="text" id="docPaciente" placeholder="Nombre del Paciente">
+                        <select id="selectDoctorAsignado"><option value="">Asignar Médico Tratante</option></select>
+                        <input type="text" id="docArea" placeholder="Área">
+                        <input type="text" id="docSala" placeholder="Sala">
+                        <input type="text" id="docMedicamento" placeholder="Medicamento">
+                        <select id="docUrgencia">
+                            <option value="Baja">Prioridad: Baja</option>
+                            <option value="Media">Prioridad: Media</option>
+                            <option value="Alta">Prioridad: Alta</option>
+                        </select>
+                        <button onclick="doctorAsignarPaciente()" style="grid-column: span 2;">Guardar Expediente e Ingresar Paciente</button>
+                    </div>
+
+                    <div id="contenedorCamas"></div>
+                </div>
+            </div>
+
+            <div class="card doctor-section">
+                <h2>Doctores Registrados</h2>
+                <div id="formAdminDoctor" class="form-group" style="display:none;">
+                    <input type="text" id="docNombre" placeholder="Nombre">
+                    <input type="text" id="docEspecialidad" placeholder="Especialidad">
+                    <button onclick="adminAgregarDoctor()">Agregar</button>
+                </div>
+                <ul id="listaDoctores" style="list-style:none; padding:0;"></ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let usuarioActual = "";
+    let rolActual = "";
+
+    const datos = {
+        camas: [
+            { 
+                nombre: "Cama 101", area: "Urgencias", sala: "Sala A", ocupada: true, altaSolicitada: false,
+                paciente: "Andrés Mendoza", doctorAtendio: "Dr. Carlos Mendoza", urgencia: "Alta", medicamento: "Paracetamol 500mg cada 8h",
+                historialDosis: ["Administrado: 16/06/2026 08:00"]
+            },
+            { 
+                nombre: "Cama 102", area: "Pediatría", sala: "Sala 3", ocupada: false, altaSolicitada: false,
+                paciente: "", doctorAtendio: "", urgencia: "Baja", medicamento: "", historialDosis: []
+            }
+        ],
+        doctores: [
+            { nombre: "Dr. Carlos Mendoza", esp: "Cardiología" },
+            { nombre: "Dra. Elena Rostova", esp: "Pediatría" }
+        ]
+    };
+
+    function login() {
+        const user = document.getElementById('username').value.toLowerCase().trim();
+        const pass = document.getElementById('password').value;
+
+        if ((user === "admin" || user === "doctor" || user === "enfermera") && pass === "123") {
+            usuarioActual = user;
+            rolActual = user;
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+            document.getElementById('userSession').innerText = `Rol: ${rolActual.toUpperCase()}`;
+            configurarInterfazPorRol();
+            renderizarTodo();
+        } else {
+            alert("Credenciales incorrectas (admin/123, doctor/123, enfermera/123)");
+        }
+    }
+
+    function logout() {
+        document.getElementById('loginSection').style.display = 'block';
+        document.getElementById('dashboardSection').style.display = 'none';
+    }
+
+    function configurarInterfazPorRol() {
+        document.getElementById('formAdminCama').style.display = 'none';
+        document.getElementById('formEnfermeraCama').style.display = 'none';
+        document.getElementById('formDoctorCama').style.display = 'none';
+        document.getElementById('formAdminDoctor').style.display = 'none';
+
+        if (rolActual === "admin") {
+            document.getElementById('welcomeTitle').innerText = "Panel del Administrador (Control Total)";
+            document.getElementById('formAdminCama').style.display = 'grid';
+            document.getElementById('formAdminDoctor').style.display = 'grid';
+        } else if (rolActual === "doctor") {
+            document.getElementById('welcomeTitle').innerText = "Perfil Clínico del Doctor";
+            document.getElementById('formDoctorCama').style.display = 'grid';
+        } else if (rolActual === "enfermera") {
+            document.getElementById('welcomeTitle').innerText = "Estación de Trabajo - Enfermería";
+            document.getElementById('formEnfermeraCama').style.display = 'grid';
+        }
+    }
+
+    function renderizarTodo() {
+        const contenedor = document.getElementById('contenedorCamas');
+        contenedor.innerHTML = "";
+
+        const selectDocCama = document.getElementById('selectCamaDoctor');
+        const selectEnfCama = document.getElementById('selectCamaEnfermera');
+        const selectDocAsignado = document.getElementById('selectDoctorAsignado');
+
+        selectDocCama.innerHTML = '<option value="">Selecciona Cama para Expediente</option>';
+        selectEnfCama.innerHTML = '<option value="">Selecciona Cama para Modificar Area/Sala</option>';
+        selectDocAsignado.innerHTML = '<option value="">Asignar Médico Tratante</option>';
+
+        datos.doctores.forEach(d => {
+            selectDocAsignado.innerHTML += `<option value="${d.nombre}">${d.nombre} (${d.esp})</option>`;
         });
 
-        slides.forEach((_, idx) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if(idx === 0) dot.classList.add('active');
-            dotsContainer.appendChild(dot);
+        datos.camas.forEach((cama, index) => {
+            selectDocCama.innerHTML += `<option value="${index}">${cama.nombre}</option>`;
+            selectEnfCama.innerHTML += `<option value="${index}">${cama.nombre}</option>`;
+
+            let dosisHTML = cama.historialDosis.map(d => `<div>✓ ${d}</div>`).join('');
+            
+            let estadoBadge = `<span class="badge disponible">Disponible</span>`;
+            if(cama.ocupada) {
+                estadoBadge = cama.altaSolicitada 
+                    ? `<span class="badge solicitada">Alta Solicitada</span>` 
+                    : `<span class="badge ocupada">Ocupada</span>`;
+            }
+
+            let accionesCamaHTML = "";
+
+            if (rolActual === 'admin') {
+                accionesCamaHTML += `<button class="btn-eliminar" onclick="eliminarCama(${index})">Eliminar Cama</button> `;
+            }
+
+            if (cama.ocupada) {
+                if ((rolActual === 'enfermera' || rolActual === 'admin') && cama.medicamento) {
+                    accionesCamaHTML += `<button class="btn-accion" style="background:var(--verde-pastel)" onclick="registrarDosisMedica(${index})">💊 Registrar Dosis</button> `;
+                }
+
+                if ((rolActual === 'enfermera' || rolActual === 'admin') && !cama.altaSolicitada) {
+                    accionesCamaHTML += `<button class="btn-accion" style="background:#ffe5ec;" onclick="solicitarAlta(${index})">🔔 Solicitar Alta</button> `;
+                }
+
+                if (rolActual === 'doctor' || rolActual === 'admin') {
+                    const textoBotonAlta = cama.altaSolicitada ? "⚠️ Aprobar Alta (Limpiar Cama)" : "Dar de Alta Directa";
+                    accionesCamaHTML += `<button class="btn-alta" onclick="aprobarAlta(${index})">${textoBotonAlta}</button>`;
+                }
+            }
+
+            contenedor.innerHTML += `
+                <div class="cama-item" style="${cama.altaSolicitada ? 'background-color: var(--amarillo-alerta); border-left-color: #f5cb5c;' : ''}">
+                    <div class="cama-header">
+                        <h3>🛏️ ${cama.nombre} ${estadoBadge}</h3>
+                        <div>${accionesCamaHTML}</div>
+                    </div>
+                    <div class="cama-detalles">
+                        <div><b>Área:</b> ${cama.area || 'Sin asignar'}</div>
+                        <div><b>Sala:</b> ${cama.sala || 'Sin asignar'}</div>
+                        <div><b>Paciente:</b> ${cama.paciente || '<i>Ninguno</i>'}</div>
+                    </div>
+                    ${cama.ocupada ? `
+                        <div class="receta-box">
+                            <div style="display:flex; justify-content:space-between;">
+                                <div><b>Médico Atendió:</b> <span style="color:#2b6cb0; font-weight:bold;">${cama.doctorAtendio || 'No especificado'}</span></div>
+                                <div><b>Prioridad:</b> <span class="badge ${cama.urgencia}">${cama.urgencia}</span></div>
+                            </div>
+                            <div style="margin-top:5px;"><b>Tratamiento:</b> ${cama.medicamento || 'Sin indicaciones'}</div>
+                            <div style="margin-top:8px; font-weight:bold; font-size:0.85em;">Seguimiento de Enfermería:</div>
+                            <div class="historial-dosis">${dosisHTML || 'No se han administrado dosis en este turno.'}</div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
         });
 
-        const dots = document.querySelectorAll('.dot');
+        const listaDoc = document.getElementById('listaDoctores');
+        listaDoc.innerHTML = "";
+        datos.doctores.forEach((doc, index) => {
+            const btnEliminar = rolActual === 'admin' ? `<button class="btn-eliminar" onclick="eliminarDoctor(${index})">Eliminar</button>` : '';
+            listaDoc.innerHTML += `
+                <li style="display:flex; justify-content:space-between; margin:8px 0; background:var(--bg-principal); padding:8px; border-radius:5px;">
+                    <span><b>${doc.nombre}</b> - ${doc.esp}</span>
+                    ${btnEliminar}
+                </li>
+            `;
+        });
+    }
 
-        function resetProgressBar() {
-            progressBar.style.transition = 'none';
-            progressBar.style.width = '0%';
-            setTimeout(() => {
-                progressBar.style.transition = `width ${slideIntervalTime}ms linear`;
-                progressBar.style.width = '100%';
-            }, 50);
+    function solicitarAlta(idx) {
+        datos.camas[idx].altaSolicitada = true;
+        renderizarTodo();
+    }
+
+    function aprobarAlta(idx) {
+        datos.camas[idx].paciente = "";
+        datos.camas[idx].doctorAtendio = "";
+        datos.camas[idx].ocupada = false;
+        datos.camas[idx].altaSolicitada = false;
+        datos.camas[idx].medicamento = "";
+        datos.camas[idx].urgencia = "Baja";
+        datos.camas[idx].historialDosis = [];
+        renderizarTodo();
+    }
+
+    function doctorAsignarPaciente() {
+        const idx = document.getElementById('selectCamaDoctor').value;
+        const pac = document.getElementById('docPaciente').value.trim();
+        const docAsignado = document.getElementById('selectDoctorAsignado').value;
+        const area = document.getElementById('docArea').value.trim();
+        const sala = document.getElementById('docSala').value.trim();
+        const med = document.getElementById('docMedicamento').value.trim();
+        const urg = document.getElementById('docUrgencia').value;
+
+        if (idx !== "" && pac !== "") {
+            datos.camas[idx].paciente = pac;
+            datos.camas[idx].doctorAtendio = docAsignado || "Asignado en Guardia";
+            datos.camas[idx].ocupada = true;
+            datos.camas[idx].altaSolicitada = false;
+            if(area) datos.camas[idx].area = area;
+            if(sala) datos.camas[idx].sala = sala;
+            datos.camas[idx].medicamento = med;
+            datos.camas[idx].urgencia = urg;
+
+            document.getElementById('docPaciente').value = "";
+            document.getElementById('docArea').value = "";
+            document.getElementById('docSala').value = "";
+            document.getElementById('docMedicamento').value = "";
+            renderizarTodo();
+        } else {
+            alert("Debes seleccionar una cama e indicar el nombre del paciente.");
         }
+    }
 
-        function changeSlide() {
-            slides[currentSlide].classList.remove('active');
-            dots[currentSlide].classList.remove('active');
-
-            currentSlide = (currentSlide + 1) % slides.length;
-
-            slides[currentSlide].classList.add('active');
-            dots[currentSlide].classList.add('active');
-
-            resetProgressBar();
+    function enfermeraActualizarCama() {
+        const idx = document.getElementById('selectCamaEnfermera').value;
+        const area = document.getElementById('camaAreaEnfermera').value.trim();
+        const sala = document.getElementById('camaSalaEnfermera').value.trim();
+        
+        if(idx !== "") {
+            if(area) datos.camas[idx].area = area;
+            if(sala) datos.camas[idx].sala = sala;
+            document.getElementById('camaAreaEnfermera').value = "";
+            document.getElementById('camaSalaEnfermera').value = "";
+            renderizarTodo();
         }
+    }
 
-        resetProgressBar();
-        setInterval(changeSlide, slideIntervalTime);
-    </script>
+    function registrarDosisMedica(idx) {
+        const ahora = new Date();
+        const tiempo = `${ahora.getDate()}/${ahora.getMonth()+1}/${ahora.getFullYear()} ${ahora.getHours().toString().padStart(2, '0')}:${ahora.getMinutes().toString().padStart(2, '0')}`;
+        datos.camas[idx].historialDosis.unshift(`Administrado: ${tiempo}`);
+        renderizarTodo();
+    }
+
+    function adminAgregarCama() {
+        const nom = document.getElementById('camaNombreAdmin').value.trim();
+        const area = document.getElementById('camaAreaAdmin').value.trim();
+        if(nom) {
+            datos.camas.push({ nombre: nom, area: area, sala: "", ocupada: false, altaSolicitada: false, paciente: "", doctorAtendio: "", urgencia: "Baja", medicamento: "", historialDosis: [] });
+            document.getElementById('camaNombreAdmin').value = "";
+            document.getElementById('camaAreaAdmin').value = "";
+            renderizarTodo();
+        }
+    }
+
+    function adminAgregarDoctor() {
+        const nom = document.getElementById('docNombre').value.trim();
+        const esp = document.getElementById('docEspecialidad').value.trim();
+        if(nom && esp) {
+            datos.doctores.push({ nombre: "Dr. " + nom, esp: esp });
+            document.getElementById('docNombre').value = "";
+            document.getElementById('docEspecialidad').value = "";
+            renderizarTodo();
+        }
+    }
+
+    function eliminarCama(idx) { datos.camas.splice(idx, 1); renderizarTodo(); }
+    function eliminarDoctor(idx) { datos.doctores.splice(idx, 1); renderizarTodo(); }
+</script>
 </body>
 </html>
